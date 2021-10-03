@@ -1,0 +1,87 @@
+#!/usr/bin/bash 
+
+##    Huion 950P tablet configure   Kubuntu Linux 20.04   October 2021
+#  Source/Thanks to:
+#    https://askubuntu.com/questions/1000869/how-to-run-the-new-huion-tablets-on-linux
+#
+
+# Step 1:
+# as superuser, copy this into a new file /usr/share/X11/xorg.conf.d/90-huion950P.conf
+# 
+# Section "InputClass"
+#     Identifier "Huion tablets with Wacom driver"
+#     MatchUSBID "256c:006d*"
+#     MatchIsTablet "true"
+#     MatchDevicePath "/dev/input/event*"
+#     Driver "wacom"
+# EndSection
+
+# Step 2:  Restart X server by logging out or rebooting 
+
+# Step 3:  Get names of your Huion tablet devices
+
+# > xsetwacom --list
+
+# example output:
+# 
+# Wacom HID 488E Pen stylus               id: 20  type: STYLUS    
+# Wacom HID 488E Finger touch             id: 21  type: TOUCH     
+# Wacom HID 488E Pen eraser               id: 30  type: ERASER    
+# HUION Huion Tablet_H950P Pen stylus     id: 32  type: STYLUS    
+# HUION Huion Tablet_H950P Pad pad        id: 33  type: PAD       
+
+# Step 4:  customize the device names for STYLUS and PAD below, and of course set 
+#  the commands according to your own preference. 
+
+#  You are all set!!   make this file runable and run it whenever you plug
+# in your tablet!
+#   > ./tabInit
+#
+
+# Huion H950P
+
+export Stylus='HUION Huion Tablet_H950P Pen stylus' 
+export    Pad='HUION Huion Tablet_H950P Pad pad'
+
+
+####   Now we're setting up the buttons for specific XournalPP commands
+
+##   ERASER
+xsetwacom --set "$Stylus" Button 3 "key shift ctrl e" 
+##   Pen
+xsetwacom --set "$Stylus" Button 2 "key shift ctrl p"   
+# 
+
+##  Side Buttons:   
+#  Buttons (from top)    1 2 3 8 9 10 12
+#
+
+xsetwacom --set "$Pad" Button 1 "key shift ctrl p"   # Pen
+xsetwacom --set "$Pad" Button 2 "key shift ctrl e"   # Eraser
+xsetwacom --set "$Pad" Button 3 "key shift ctrl h"   # highlighter
+xsetwacom --set "$Pad" Button 8 "key ctrl 1"         # draw rectangle
+
+xsetwacom --set "$Pad" Button 9   "key ctrl 4"       # arrow
+xsetwacom --set "$Pad" Button 10  "key ctrl 5"        # coordinate system
+xsetwacom --set "$Pad" Button 11  "key ctrl 6"       #straight line
+xsetwacom --set "$Pad" Button 12  "key +shift ctrl x"  #latex input
+
+#         OTHER NOTES
+
+# https://forums.linuxmint.com/viewtopic.php?t=353610
+# 
+# First, in the terminal input
+# $xev -event button
+# it opened up a window with white background and black square, click with the button you want to change to get its information in the terminal, looks something like this:
+# ButtonRelease event, serial 25, synthetic NO, window 0x6600001,
+# root 0x686, subw 0x6600002, time 5846469, (39,37), root:(740,408),
+# state 0x400, button 3, same_screen YES
+# So from this we find the button number
+# button 3
+# then input in terminal:
+# xsetwacom list devices
+# what i was looking for was
+# Wacom Intuos BT M Pen stylus
+# and then
+# xsetwacom set "Wacom Intuos BT M Pen stylus" Button 3 "key ctrl + z"
+
