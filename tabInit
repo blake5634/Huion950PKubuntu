@@ -59,7 +59,7 @@ xsetwacom --set "$Stylus" Button 2 "key shift ctrl p"
 xsetwacom --set "$Pad" Button 1 "key shift ctrl p"   # Pen
 xsetwacom --set "$Pad" Button 2 "key shift ctrl e"   # Eraser
 xsetwacom --set "$Pad" Button 3 "key shift ctrl h"   # highlighter
-xsetwacom --set "$Pad" Button 8 "key ctrl 1"         # draw rectangle
+xsetwacom --set "$Pad" Button 8 "key ctrl 2"         # draw rectangle
 
 xsetwacom --set "$Pad" Button 9   "key ctrl 4"       # arrow
 xsetwacom --set "$Pad" Button 10  "key ctrl 5"        # coordinate system
